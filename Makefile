@@ -364,7 +364,7 @@ all: build
 build: $(PROG)
 .SUFFIXES: .o .cu
 .cu.o:
-	$(EXEC) $(NVCC) $(INCLUDES) $(GENCODE_FLAGS) -o $@ -c $<
+	$(EXEC) $(NVCC) -Xcudafe "--diag_suppress=declared_but_not_referenced" $(INCLUDES) $(GENCODE_FLAGS) -o $@ -c $<
 
 $(PROG): $(OBJS)
 	$(EXEC) $(NVCC) $(ALL_LDFLAGS) $(GENCODE_FLAGS) -o $@ $+ $(LIBRARIES)
