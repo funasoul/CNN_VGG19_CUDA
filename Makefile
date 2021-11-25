@@ -347,6 +347,7 @@ endif
 
 ################################################################################
 # Change the following variables to fit your project.
+GPU_DEVICE := 0 # K40m = 0, A100 = 1
 PROG := cnn_vgg19_cuda
 OBJS := cnn_vgg19_cuda.o
 CUBLAS_LIBS := `pkg-config --libs cublas-11.5` -lcusparse
@@ -381,7 +382,7 @@ endif
 
 .PHONY: run
 run: build $(WEIGHT_TXT) $(BIAS_TXT)
-	$(EXEC) ./$(PROG) $(RUN_ARGS) $(WEIGHT_TXT) $(BIAS_TXT) $(OUTPUT_TXT)
+	CUDA_VISIBLE_DEVICES=$(GPU_DEVICE) ./$(PROG) $(RUN_ARGS) $(WEIGHT_TXT) $(BIAS_TXT) $(OUTPUT_TXT)
 	python softmax.py
 
 clean:
@@ -400,7 +401,7 @@ $(BIAS_TXT): $(PRETRAINED_MODEL)
 	python vgg19.py
 
 $(OUTPUT_TXT): $(PROG) $(INPUT_TXT) $(WEIGHT_TXT) $(BIAS_TXT)
-	$(EXEC) ./$(PROG) $(INPUT_TXT) $(WEIGHT_TXT) $(BIAS_TXT) $(OUTPUT_TXT)
+	CUDA_VISIBLE_DEVICES=$(GPU_DEVICE) ./$(PROG) $(INPUT_TXT) $(WEIGHT_TXT) $(BIAS_TXT) $(OUTPUT_TXT)
 
 softmax: $(OUTPUT_TXT)
 	python softmax.py

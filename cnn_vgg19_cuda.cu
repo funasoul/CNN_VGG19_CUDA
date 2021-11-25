@@ -12,6 +12,9 @@
 #define CudaSafeCall(err) __CudaSafeCall(err, __FILE__, __LINE__)
 #define CudaCheckError() __CudaCheckError(__FILE__, __LINE__)
 
+// global variable for counting num of threads.
+__device__ unsigned long long d_totalThreads = 0;
+
 __host__ void __CudaSafeCall(cudaError err, const char *file, const int line) {
 #ifdef CUDA_CHECK_ERROR
     if (cudaSuccess != err) {
@@ -123,6 +126,10 @@ __global__ void transform_image(float *input, const float *raw_input, const int 
     int per_channel_width = width * width;
     int hidden_width = 3 * 3 * channels + 1;
     int global_offset = thread_id * hidden_width;
+
+    // Atomically update num of threads.
+    // XXX: Atomic operations may be relatively slow. Using such code on a regular basis is not recommended.
+    atomicAdd(&d_totalThreads, 1);
 
     for (int c = 0; c < channels; c++) {
         int offset = 0;
@@ -322,12 +329,31 @@ void read_image(char *image_file)
     fclose(fin);
 }
 
+void print_device_info(void)
+{
+    // debug info
+    int devID = 0;
+    cudaDeviceProp props;
+
+    //Get GPU information
+    CudaSafeCall(cudaGetDevice(&devID));
+    CudaSafeCall(cudaGetDeviceProperties(&props, devID));
+    printf("Device %d: \"%s\" with Compute %d.%d capability\n", devID, props.name, props.major, props.minor);
+}
+
 int main(int argc, char **argv)
 {
     char *image_file = argv[1];
     char *weights_file = argv[2];
     char *bias_file = argv[3];
     char *output_file = argv[4];
+    unsigned long long total;
+    char yellow[] = "\x1b[33m";
+    char reset[] = "\x1b[39m";
+
+    // print device info
+    print_device_info();
+
     // read image file
     read_image(image_file);
 
@@ -339,6 +365,9 @@ int main(int argc, char **argv)
     // ReLU layers in transform kernel or maxpooling
     // read file input in each layer beginning to save memory cost
     convolution(224, 3, 64);
+    cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
+    printf("Total threads counted: %s%llu%s\n", yellow, total, reset);
+
     convolution(224, 64, 64);
     maxpool(224, 64);
     convolution(112, 64, 128);
