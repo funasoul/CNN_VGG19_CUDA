@@ -347,7 +347,7 @@ endif
 
 ################################################################################
 # Change the following variables to fit your project.
-GPU_DEVICE := 0 # K40m = 0, A100 = 1
+GPU_DEVICE := 1 # K40m = 0, A100 = 1
 PROG := cnn_vgg19_cuda
 OBJS := cnn_vgg19_cuda.o
 CUBLAS_LIBS := `pkg-config --libs cublas-11.5` -lcusparse

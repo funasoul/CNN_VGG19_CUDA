@@ -360,7 +360,11 @@ int main(int argc, char **argv)
     char *bias_file = argv[3];
     char *output_file = argv[4];
     unsigned long long total, tmp;
+    char red[] = "\x1b[31m";
+    char green[] = "\x1b[32m";
     char yellow[] = "\x1b[33m";
+    char purple[] = "\x1b[35m";
+    char cyan[] = "\x1b[36m";
     char reset[] = "\x1b[39m";
 
     // print device info
@@ -378,121 +382,122 @@ int main(int argc, char **argv)
     // read file input in each layer beginning to save memory cost
     convolution(224, 3, 64);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total, reset);
+
     tmp = total;
     convolution(224, 64, 64);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     maxpool(224, 64);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%smax pooling%s:\tTotal threads counted: %s%6llu%s\n", green, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(112, 64, 128);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(112, 128, 128);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     maxpool(112, 128);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%smax pooling%s:\tTotal threads counted: %s%6llu%s\n", green, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(56, 128, 256);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(56, 256, 256);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(56, 256, 256);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(56, 256, 256);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     maxpool(56, 256);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%smax pooling%s:\tTotal threads counted: %s%6llu%s\n", green, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(28, 256, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(28, 512, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(28, 512, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(28, 512, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     maxpool(28, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%smax pooling%s:\tTotal threads counted: %s%6llu%s\n", green, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(14, 512, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(14, 512, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(14, 512, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     convolution(14, 512, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sconvolution%s:\tTotal threads counted: %s%6llu%s\n", cyan, reset, yellow, total - tmp, reset);
 
     tmp = total;
     maxpool(14, 512);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%smax pooling%s:\tTotal threads counted: %s%6llu%s\n", green, reset, yellow, total - tmp, reset);
 
     tmp = total;
     fully_connected(7, 512, 4096); // most time consuming file input
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sfully conn.%s:\tTotal threads counted: %s%6llu%s\n", purple, reset, yellow, total - tmp, reset);
 
     tmp = total;
     fully_connected(1, 4096, 4096);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sfully conn.%s:\tTotal threads counted: %s%6llu%s\n", purple, reset, yellow, total - tmp, reset);
 
     tmp = total;
     fully_connected(1, 4096, 1000);
     cudaMemcpyFromSymbol(&total, d_totalThreads, sizeof(unsigned long long));
-    printf("Total threads counted: %s%llu%s\n", yellow, total - tmp, reset);
+    printf("%sfully conn.%s:\tTotal threads counted: %s%6llu%s\n", purple, reset, yellow, total - tmp, reset);
 
 
     // write 1000 dimension
