@@ -283,7 +283,7 @@ void convolution(int width, int channels, int num_filters)
 }
 
 // debug use, print out each element of output after a layer
-void debug_print(int width, int channels)
+void debug_print(int width, int channels, int num_filters)
 {
     int output_size = width * width * channels;
     float *output = (float *)malloc(output_size * sizeof(float));
