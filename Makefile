@@ -361,7 +361,6 @@ BIAS_TXT := vgg19_bias.txt
 all: build
 
 build: $(PROG)
-
 .SUFFIXES: .o .cu
 .cu.o:
 	$(EXEC) $(NVCC) $(INCLUDES) $(GENCODE_FLAGS) -o $@ -c $<
@@ -381,7 +380,7 @@ endif
 .PHONY: $(RUN_ARGS)
 
 .PHONY: run
-run: build
+run: build $(WEIGHT_TXT) $(BIAS_TXT)
 	$(EXEC) ./$(PROG) $(RUN_ARGS) $(WEIGHT_TXT) $(BIAS_TXT) $(OUTPUT_TXT)
 	python softmax.py
 
