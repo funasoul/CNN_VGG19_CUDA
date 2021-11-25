@@ -4,7 +4,7 @@ Convolutional Neural Network of VGG19 model using CUDA to accelerate
 
 ## CNN architecture
 
-VGG19 ([imagenet-very-deep-vgg19.mat](http://www.vlfeat.org/matconvnet/models/imagenet-vgg-verydeep-19.mat)) - pretrained model by imagenet with 19 layers
+VGG19 ([imagenet-very-deep-vgg19.mat](https://www.vlfeat.org/matconvnet/models/imagenet-vgg-verydeep-19.mat)) - pretrained model by imagenet with 19 layers
 
 ## Compile
 
