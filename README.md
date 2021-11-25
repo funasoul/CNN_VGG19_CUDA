@@ -14,9 +14,14 @@ make
 
 ## Execution
 
-```
+```sh
 ./cnn_vgg19_cuda <image file in .txt> vgg19_weight.txt vgg19_bias.txt vgg19_output_1000.txt
 ```
+or
+```sh
+make run image/dingo.txt
+```
+which will automatically download and extract the pre-trained imagenet-very-deep-vgg19, compile the code, and perform inference on the image specified by the argument (`image/dingo.txt`).
 
 ## Some useful tools
 
